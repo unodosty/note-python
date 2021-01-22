@@ -1,65 +1,137 @@
-# Today I learned
+# Note Python
 
-## 2020.02.09
-### Git basic command
-* git init:Initialize repositury
-* .git : repository
-* git status : working tree status
-* git add : add to staging area
-* git add . : add all files to staging area
-* git commit : create version
-* git commit -m "Message"
-* git commit -am "Message" : add + commit
-* git log : show version
-* git log -stat
-* git log -p
-* git diff
-* git checkout commit-ID
-* git checkout master
-
-### Change git editor
-* git config --global core.editor "nano"
-
-### Reset
-* git reset --hard commit-ID
-* git reset --soft commit-ID 
-
-### Display log(branch)
-* git log --all --grape -- oneline
-
-### Correct coCcommit massage
-* git commit --amend  
-
-
-## 2020.03.12
-### Git remote
-* git init
-* git remote add origin "http adress"
-* git pull origin master
-* git add *
-* git commit -m "Message"
-* git push --set-upstream origin master
-
-
-## 2020.03.20
-### pyc compile(pyc_compile.py)  
-
+### OS Module
 <pre>
 <code>
-import py_compile  
-py_compile.compile('py file name')
-</code>
-</pre> 
+# 파일 목록 얻기
+glob.glob(wildcard) # 유닉스 경로명 패턴 스타일로 파일 목록을 얻을 수 있다.
+os.listdir(path) # 지정된 디렉토리의 전체 파일 목록을 얻을 수 있다.
+dircache.listdir(path) # os.listdir(path)와 동일한 파일 목록을 전달한다.
 
-### bat file(2 python versions)  
-C:\Anaconda3\python.exe pyc_compile.py  
-C:\Anaconda3\envs\python36\python.exe pyc_compile.py
+# 디렉토리 다루기
+os.chdir(path) #작업하고 있는 디렉토리 변경
+os.getcwd() # 현재 프로세스의 작업 디렉토리 얻기
+
+# 파일 이름 다루기
+os.path.abspath(filename) # 파일의 상대 경로를 절대 경로로 바꾸는 함수
+os.path.exists(filename) # 주어진 경로의 파일이 있는지 확인하는 함수
+os.curdir() # 현재 디렉토리 얻기
+os.pardir() # 부모 디렉토리 얻기
+os.sep() # 디렉토리 분리 문자 얻기
+
+# 경로명 분리하기
+os.path.basename(filename) # 파일명만 추출
+os.path.dirname(filename) # 디렉토리 경로 추출
+os.path.split(filename) # 경로와 파일명을 분리
+os.path.splitdrive(filename) # 드라이브명과 나머지 분리 (MS Windows의 경우)
+os.path.splitext(filename) # 확장자와 나머지 분리
+</code>
+</pre>
+
+### datetime
+<pre>
+<code>
+import datetime
+ 
+now = datetime.datetime.now()
+print(now)          # 2018-07-28 12:11:32.669083
+
+nowDate = now.strftime('%Y-%m-%d')
+print(nowDate)      # 2018-07-28
+ 
+nowTime = now.strftime('%H:%M:%S')
+print(nowTime)      # 12:11:32
+ 
+nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')
+print(nowDatetime)  # 2018-07-28 12:11:32
+</code>
+</pre>
+
+### 리스트형 내에서의 임의의 외부 숫자 위치 확인
+<pre>
+<code>
+A = [1,4,6,7]
+num = 5
+
+A.append(num)
+A.sort()
+pos = A.index(num)
+A.remove(num)
+</code>
+</pre>
+
+### 파일 실행
+<pre>
+<code>
+import os
+
+os.startfile(filename)
+</code>
+</pre>
+
+### 환경변수 불러오기
+<pre>
+<code>
+import os
+
+admin_info_file = os.getenv('NAME')
+</code>
+</pre>
+
+### json 파일 Open 및 Dump
+<pre>
+<code>
+import json
+with open('?????.json', 'r') as f:
+    admin_info = json.load(f)
+    
+with open('?????.json', 'w', encoding='utf-8') as make_file:
+    json.dump(json_data, make_file, indent="\t")
+</code>
+</pre>
+
+### Class member variable
+<pre>
+<code>
+A. dir
+class Obj:
+    def __init__(self):
+        self.x = 9
+obj=Obj()
+print( dir(obj) )
+>>> ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'x']
+
+B. __dict__
+print(obj.__dict__)
+>>> {'x': 9}
+
+</code>
+</pre>
+
+### 변수 존재 확인
+1. Try / Exception
+<pre>
+<code>
+try : 
+     thevariable
+exception NameError :
+     print('The variablle wasn't defined'_
+else :
+     print('It is defined') 
+</code>
+</pre>     
+2. variable
+<pre>
+<code>
+if 'myVar' in locals(): # local variable 일 경우
+if 'myVar' in globals(): # global variable 일 경우
+if  hasattr(obj,'attr_name') : # obj name이 존재할 경우
+</code>
+</pre>    
 
 
 ## 2020.03.23
-### DataFrame Error Fix
-* ValueError: If using all scalar values, you must pass an index  
-* [참조](https://rfriend.tistory.com/482)  
+### DataFrame 
 
 <pre>
 <code>
@@ -97,53 +169,7 @@ df = pd.DataFrame.from_doct([{'col_1':1, 'col_2':2}])
 </pre>
 
 
-## 2020.03.27
-### 동적 변수 생성
-<pre>
-<code>
-data = ["first", "second", "third"]
-for name in data:
-    for i in range(1,4):
-        globals()[name] = [x*i for x in range(3)]
-</code>
-</pre>
 
-## 2020.03.28
-### json 파일 생성
-<pre>
-<code>
-import json
-
-with open('?????.json', 'w', encoding='utf-8') as make_file:
-
-    json.dump(json_data, make_file, indent="\t")
-</code>
-</pre>
-
-### json 파일 open
-<pre>
-<code>
-import json
-
-with open('?????.json', 'r') as f:
-
-    admin_info = json.load(f)
-
-print(admin_info)
-</code>
-</pre>
-
-### 환경변수 불러오기
-<pre>
-<code>
-import os
-
-admin_info_file = os.getenv('NAME')
-</code>
-</pre>
-
-
-## 2020.04.02
 ### Numpy Zero-like
 <pre>
 <code>
@@ -158,63 +184,30 @@ array([[0, 0, 0],
 </code>
 </pre>
 
-## 2020.04.12
-### Folium Marker icon ref.
- * https://getbootstrap.com/docs/3.3/components/#glyphicons-glyph
 
-## 2020.04.15
-### AWS SSH 연결
-cmd / powershell 관리자모드로 실행  
-ssh -i "AWSKEY.pem" ubuntu@ec2-IP주소.ap-northeast-2.compute.amazonaws.com  
-### AWS server 구동
-1. python3 application.py : 파이썬 서버 구동
-2. Ctrl + Z : 프로세스 중지
-3. bg : 백그라운드에서 서버 다시 구동
-4. disown -h : 소유권 포기
-### 중지
-1. netstat -nap | grep {포트 번호}: 특정 포트 번호에서 돌아가는 프로세스를 확인하기
-2. kill -9 {프로세스 번호}: 특정한 프로세스를 종료시키기
-### 추가
-1. jobs : 프로세스 확인
-2. fg : 포어그라운드
-### key파일없는 PC에서 원격 연결(homepage)
-1. ssh mckam@13.125.57.95
-2. PASSWORD
-3. python3 application.py
-4. Ctrl + Z
-5. bg
-6. disown -h
-
-## 2020.04.16
-### KAKAO MAPS API
-* Geocoding
+### Pandas Sorting
 <pre>
 <code>
-url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+addr
-headers = {"Authorization": "KakaoAK {Private Key}"}
-result = json.loads(str(requests.get(url,headers=headers).text))
-
-if len(result['documents']) !=0:
-    match_first = result['documents'][0]['address']
-    return float(match_first['y']),float(match_first['x'])
-else:
-    return None, None
+df.sort_values(by="A", ascending=False) # ascending=False : 내림차순
+df.sort_values(['rank', 'rank1', 'rank2'], ascending=[True,True,True])
 </code>
-</pre>
+</pre> 
+### Pandas Rank
+<pre>
+<code>
+df['rank1'] = df['A'].rank(ascending=False)
+</code>
+</pre> 
 
+### Pandas String to DateTime
+<pre>
+<code>
+df['col'] = pd.to_datetime(df['col'])
+pd.to_datetime(pd.Series(['05/23/2005']))
+pd.to_datetime(pd.Series(['05/23/2005']), format="%m/%d/%Y")
+</code>
+</pre> 
 
-## 2020.05.07
-### install python anaconda 32bit envs
-* set CONDA_FORCE_32BIT=1
-* conda create -n XXXXXXX python=3.7 anaconda
-
-### To activate envs.
-* conda activate XXXXXXX
-### To deactivate an active envs.
-* conda deactivate
-
-
-## 2020.05.18
 ### pandas string
 <pre>
 <code>
@@ -265,97 +258,28 @@ df['email_match']      = df['email'].str.match(pat='[a-zA-Z@.]') # 입력패턴�
 </code>
 </pre>
 
-
-## 2020.05.19
-### OS Module
+### Pandas DataFrame 중복제거
 <pre>
 <code>
-# 파일 목록 얻기
-glob.glob(wildcard) # 유닉스 경로명 패턴 스타일로 파일 목록을 얻을 수 있다.
-os.listdir(path) # 지정된 디렉토리의 전체 파일 목록을 얻을 수 있다.
-dircache.listdir(path) # os.listdir(path)와 동일한 파일 목록을 전달한다.
+df.drop_duplicates([A, B], keep='first') # A, B : 중복 여부 기준 Columns
+</code>
+</pre> 
+### Pandas DataFrame index 초기화
+<pre>
+<code>
+df.reset_index(drop=True)
+</code>
+</pre> 
 
-# 디렉토리 다루기
-os.chdir(path) #작업하고 있는 디렉토리 변경
-os.getcwd() # 현재 프로세스의 작업 디렉토리 얻기
+### Pandas DataFrame 그림파일로 변환
+<pre>
+<code>
+import dataframe_image as dfi
 
-# 파일 이름 다루기
-os.path.abspath(filename) # 파일의 상대 경로를 절대 경로로 바꾸는 함수
-os.path.exists(filename) # 주어진 경로의 파일이 있는지 확인하는 함수
-os.curdir() # 현재 디렉토리 얻기
-os.pardir() # 부모 디렉토리 얻기
-os.sep() # 디렉토리 분리 문자 얻기
-
-# 경로명 분리하기
-os.path.basename(filename) # 파일명만 추출
-os.path.dirname(filename) # 디렉토리 경로 추출
-os.path.split(filename) # 경로와 파일명을 분리
-os.path.splitdrive(filename) # 드라이브명과 나머지 분리 (MS Windows의 경우)
-os.path.splitext(filename) # 확장자와 나머지 분리
+dfi.export(df, 'result.png')
 </code>
 </pre>
 
-
-## 2020.05.21
-### datetime
-<pre>
-<code>
-import datetime
- 
-now = datetime.datetime.now()
-print(now)          # 2018-07-28 12:11:32.669083
-
-nowDate = now.strftime('%Y-%m-%d')
-print(nowDate)      # 2018-07-28
- 
-nowTime = now.strftime('%H:%M:%S')
-print(nowTime)      # 12:11:32
- 
-nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')
-print(nowDatetime)  # 2018-07-28 12:11:32
-</code>
-</pre>
-
-
-## 2020.06.02
-### Class member variable
-<pre>
-<code>
-A. dir
-class Obj:
-    def __init__(self):
-        self.x = 9
-obj=Obj()
-print( dir(obj) )
->>> ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'x']
-
-B. __dict__
-print(obj.__dict__)
->>> {'x': 9}
-
-</code>
-</pre>
-
-### 변수 존재 확인
-1. Try / Exception
-<pre>
-<code>
-try : 
-     thevariable
-exception NameError :
-     print('The variablle wasn't defined'_
-else :
-     print('It is defined') 
-</code>
-</pre>     
-2. variable
-<pre>
-<code>
-if 'myVar' in locals(): # local variable 일 경우
-if 'myVar' in globals(): # global variable 일 경우
-if  hasattr(obj,'attr_name') : # obj name이 존재할 경우
-</code>
-</pre>    
 
 ## 2020.06.08
 ### AWS EC2 ubuntu 유저 생성(pem 파일없이 패스워드 사용 접속)
@@ -378,45 +302,6 @@ ssh USERNAME@IP ADRESS
 PASSWORD
 
 
-## 2020.06.23
-### Pandas DataFrame 중복제거
-<pre>
-<code>
-df.drop_duplicates([A, B], keep='first') # A, B : 중복 여부 기준 Columns
-</code>
-</pre> 
-### Pandas DataFrame index 초기화
-<pre>
-<code>
-df.reset_index(drop=True)
-</code>
-</pre> 
-
-
-## 2020.06.27
-### 리스트형 내에서의 임의의 외부 숫자 위치 확인
-<pre>
-<code>
-A = [1,4,6,7]
-num = 5
-
-A.append(num)
-A.sort()
-pos = A.index(num)
-A.remove(num)
-</code>
-</pre>
-
-
-## 2020.06.29
-### 파일 실행
-<pre>
-<code>
-import os
-
-os.startfile(filename)
-</code>
-</pre>
 
 
 ## 2020.07.13
@@ -448,46 +333,7 @@ os.startfile(filename)
 select 시장구분, 종목코드, 종목명, 주식수, 전일종가, 전일종가*주식수 as 시가총액  
             from 종목코드    
             order by 시장구분, 종목코드  
-</code>
-</pre>
 
-
-## 2020.07.20
-### 크롤링 requests SSLError 해결
-* requests.get(url, verify=False)
-
-
-## 2020.08.08
-### Pandas Sorting
-<pre>
-<code>
-df.sort_values(by="A", ascending=False) # ascending=False : 내림차순
-df.sort_values(['rank', 'rank1', 'rank2'], ascending=[True,True,True])
-</code>
-</pre> 
-### Pandas Rank
-<pre>
-<code>
-df['rank1'] = df['A'].rank(ascending=False)
-</code>
-</pre> 
-
-
-## 2020.09.15
-### Pandas String to DateTime
-<pre>
-<code>
-df['col'] = pd.to_datetime(df['col'])
-pd.to_datetime(pd.Series(['05/23/2005']))
-pd.to_datetime(pd.Series(['05/23/2005']), format="%m/%d/%Y")
-</code>
-</pre> 
-
-
-## 2020.09.25
-### SQLite3 query
-<pre>
-<code>
 query = """
     SELECT A.날짜, A.기간구분, A.종목코드, C.종목명, B.종가, A.매출액, A.영업이익, A.당기순이익, A.자산총계, A.부채총계, A.자본총계, A.자본금, 
         A.부채비율, A.유보율, A.영업이익률, A.순이익률, A.ROA, A.ROE, A.EPS, A.BPS, A.DPS, A.PER, 1/A.PER as RPER, A.PBR, A.발행주식수, A.배당수익률, C.종목상태
@@ -498,249 +344,12 @@ query = """
 </pre>
 
 
-## 2020.09.30
-### R
-<pre>
-<code>
-library(boot)
-data(nodal)
-data(nodal)
-a<-c(2,4,6,7)
-data <- nodal[,a]
-glmModel <- glm(r~., data=data, family = "binomial")
-summary(glmModel)
-</code>
-</pre> 
-<pre>
-<code>
-Moving Averages
-Calculate various moving averages (MA) of a series.
-SMA(x, n = 10, ...)
-</code>
-</pre> 
-<pre>
-<code>
-주성분분석 PCA(Principal Component Analysis)
-college_s <- scale(college)
-summary(college_s
-fit <- princomp(college_s)
-fit$loadings
-</code>
-</pre> 
-<pre>
-<code>
-# 최적회귀_변수선택법
-step(lm(출력변수~입력변수, 데이터세트), scope=list(lower=~1, upper=~입력변수), direction="변수선택방법")
-# 예제
-step(lm(y~1, data=df), scope=list(lower=~1, upper=~x1+x2+x3+x4), direction="forward")
-</code>
-</pre> 
+## 2020.07.20
+### 크롤링 requests SSLError 해결
+* requests.get(url, verify=False)
 
 
-## 2020.10.05
-### R
-<pre>
-<code>
-# 연관성 분석 apriori(arules 패키지)
-> data(Groceries)
-> inspect(Groceries[1:3])
-> rules <- apriori(Froceries, parameter=list(support=0.01, confidence=0.3))
-> inspect(sort(rules, by=c("lift"), decreasing=TRUE)[1:20])
-</code>
-</pre>
-<pre>
-<code>
-# 군집분석(k-means)
-> data(iris)
-> newiris <- iris
-> newiris$Species <- NULL
-> kc <- kmeans(newiris, 3)
-> table(iris$Species, kc$cluster)
-> plot(newiris[c("Sepal.Length", "Sepal.Width")], col=kc$cluster)
-</code>
-</pre>
 
-
-## 2020.10.09
-### R
-<pre>
-<code>
-# reshape 
-# 1. melt
-> aqm = melt(airquality, id=c('month', 'day'), na.rm=TRUE)
-# 2. cast
-> a <- cast(aqm, day~month~variable)
-</code>
-</pre>
-<pre>
-<code>
-# sqldf
-> sqldf("select * from [data frame]")
-> sqldf("select * from [data frame] limit 10")
-> sqldf("select * from [data frame] where [col] like 'char%' ")
-</code>
-</pre>
-
-## 2020.10.10
-### R
-<pre>
-<code>
-# 데이터프레임 조회 
-# 1. data.frame에서 바로 조회
-> test[test$학과=='경영학과',]
-# 2. subset으로 데이터셋 조회
-> subset(test, subset=(학과=="경영학과"))
-</code>
-</pre>
-
-
-## 2020.10.15
-### R
-<pre>
-<code>
-# 반복 
-> rep(1,time=5)
-> rep(1:4, each=2)
-> rep(c, each=2
-# 문자 붙이기
-> A <- paste("a", "b", "c", sep="-")
-> paste(A, c("e", "f"))
-> paste(A, 10, sep="")
-# 문자열 추출
-> substr("Bigdataanalysis",1,4) -> Bigd
-# 기초 통계
-> mean(변수) # 평균
-> sum(변수) # 합계
-> median(변수) # 중앙값
-> sd(변수) # 표준편차
-> var(변수) # 분산
-> cov(변수1, 변수2) # 공분산
-> cor(변수1, 변수2) # 상관계수
-# 파일 읽기
-> read.table("파일이름", sep='구분자')
-> read.csv("파일이름", header=T)
-</code>
-</pre>
-
-
-## 2020.10.21
-### R
-<pre>
-<code>
-# 문자열 길이
-> nchar("문자열")
-# 문자열 연결
-> paste("단어1", "단어2", sep='-')
-> paste("the pi is approximately", pi)
-# 하위문자열 추출
-> substr("statistics", 1, 4)
-# 날짜 조회
-> format(Sys.Data(), '%a') # 요일조회
-> format(Sys.Data(), '%b') # 축약된 월이름조회
-> format(Sys.Data(), '%B') # 전체 월이름조회
-> format(Sys.Data(), '%d') # 두자리 숫자의 일조회
-> format(Sys.Data(), '%m') # 두자리 숫자의 월조회
-> format(Sys.Data(), '%y') # 두자리 숫자의 연도조회
-> format(Sys.Data(), '%Y') # 네자리 숫자의 연도조회
-# 날짜 추출
-> d <- as.Date("2014-12-25")
-> start <- as.Date("2014-12-01")
-> end <- as.Date("2014-12-25")
-> seq(from=start, to=end, by=1)
-</code>
-</pre>
-
-
-## 2020.10.26
-### R
-<pre>
-<code>
-# 상관분석
-# 분산
-> var(x, y=NULL, na.rm=FALSE)
-# 공분산
-> cov(x, y=NULL, use='everything', method=c('pearson', 'kendall', 'spearman'))
-# 상관관계
-> cor(x, y=NULL, use='everything', method=c('pearson', 'kendall', 'spearman'))
-> rcorr(matrix(data명), type=c('pearson', 'kendall', 'spearman'))
-</code>
-</pre>
-
-## 2020.10.28
-### R
-<pre>
-<code>
-# R 기초 문제
-# 1
-> x <- 1:100
-> sum(x>50)
-
-# 2
-> x <- c(1,2,3,NA)
-> mean(x)
-
-# 3
-> s <- c("Monday", "Tuesday", "Wednesday")
-> substr(s, 1, 2)
-
-# 4
-> c(2,4,6,8) + c(1,3,5,7,9)
-
-# 5
-> set.seed(1000)
-> sample(1:1000, 50)
-
-# 6 잘못된 것 찾기
-> x<-c(1:4)
-> y<-c("apple","banana","orange")
-> xy<-x(x,y)
-## A. xy는 문자형 벡터
-## B. xy의 길이는 7
-## C. xy[1] + xy[2]의 결과는 3
-## D. xy[5:7]은 y와 동일
-
-# 7 다른 결과 찾기
-> A <- cbind(c(1,2,3), c(4,5,6), c(7,8,9))
-> colnames(A) <- c("A","B","C")
-> rownames(A) <- c("r1","r2","r3")
-## A[,"A"}
-## A[-c(2,3),]
-## A[,1]
-## A[, -(2:3)]
-
-# SQL 기초 문제
-# 1. ( )는?
-SELECT NAME, GENDER, SALARY
-FROM CUSTOMERS
-WHERE AGE (   ) 20 AND 30
-
-# 2. 해당 SQL문 분석
-select customer_name, 고객명, e_customer_name, 고객 영문명
-from customer
-where e_customer_name like '_A%';
-
-# 3. xy에 대한 설명으로 부적절한 것은?
-> x <- c(1:5)
-> y <- seq(10,50,10)
-> xy <- rbind(x,y)
-- 1. 2x5 행렬이다.
-- 2. xy[1,]은 x와 동일하다.
-- 3. xy[,1]은 y와 동일하다.
-- 4. Matrix 타입의 개체이다.
-</code>
-</pre>
-
-### R reshape
-# melt
-melt(MYDATA, id=c("no", "day"))
-
-# cast
-cast(MD, no+variable~day)
-cast(MD, no~variable, mean)
-cast(MD, no-variable+day)
-
-
-## 2020.11.13
 ### Python openpyxl
 #### 1. 엑셀 파일 생성
 <pre>
@@ -1157,45 +766,5 @@ def main():
     
 if __name__ == '__main__':
     main()
-</code>
-</pre>
-
-
-## 2021.01.10
-### Python 가상환경 Batch 파일 실행
-<pre>
-<code>
-call conda activate [env_name] 
-call cd [path] 
-call python [file_name.py]
-</code>
-</pre>
-
-
-## 2021.01.13
-### Pandas DataFrame 그림파일로 변환
-<pre>
-<code>
-import dataframe_image as dfi
-
-dfi.export(df, 'result.png')
-</code>
-</pre>
-
-
-## 2021.01.16
-### R
-<pre>
-<code>
-# 차함수
-> x <- c(1,2,4,5,7,9,10)
-> y <- c(1,2,3,4,5,8,10)
-> z <- setdiff(x, y)
-7 9
-> z <- setdiff(y, x)
-3 8
-# 교집합
-> z <- intersect(x, y)
-1 2 4 5 10
 </code>
 </pre>
